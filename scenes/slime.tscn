@@ -50,6 +50,7 @@ script = ExtResource("1_pc2sa")
 sprite_frames = SubResource("SpriteFrames_6jxar")
 autoplay = "default"
 frame_progress = 0.0920461
+flip_h = true
 
 [node name="Killzone" parent="." instance=ExtResource("2_coj1p")]
 
