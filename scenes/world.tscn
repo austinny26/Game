@@ -1,51 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://b3c06y0ekvnu"]
+[gd_scene load_steps=14 format=3 uid="uid://b3c06y0ekvnu"]
 
-[ext_resource type="Texture2D" uid="uid://14ctlv441fdv" path="res://assets/sprites/knight.png" id="1_chxcp"]
-[ext_resource type="Script" path="res://scenes/Player.gd" id="1_foxbg"]
 [ext_resource type="Texture2D" uid="uid://btywsg8bnvalq" path="res://assets/sprites/world_tileset.png" id="3_t6cfi"]
 [ext_resource type="PackedScene" uid="uid://cdounejwu13oy" path="res://scenes/platform.tscn" id="4_nt5cw"]
 [ext_resource type="PackedScene" uid="uid://dgr7lqy2nfnjw" path="res://scenes/coin.tscn" id="5_n5qn6"]
+[ext_resource type="PackedScene" uid="uid://ck88i3u5j1n3r" path="res://scenes/player.tscn" id="6_7cepm"]
 [ext_resource type="PackedScene" uid="uid://bdq70gapsbukp" path="res://scenes/killzone.tscn" id="6_o2qwa"]
+[ext_resource type="PackedScene" uid="uid://t3i8qmgmkjta" path="res://scenes/portal.tscn" id="7_f5lvv"]
 [ext_resource type="PackedScene" uid="uid://blq4gso2lj5yi" path="res://scenes/slime.tscn" id="7_gxosq"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w55xc"]
-atlas = ExtResource("1_chxcp")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dhnyn"]
-atlas = ExtResource("1_chxcp")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ajubm"]
-atlas = ExtResource("1_chxcp")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v443l"]
-atlas = ExtResource("1_chxcp")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_xyshj"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w55xc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dhnyn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ajubm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v443l")
-}],
-"loop": true,
-"name": &"default",
-"speed": 10.0
-}]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_23st0"]
-radius = 5.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bl40"]
 texture = ExtResource("3_t6cfi")
@@ -523,29 +484,6 @@ offset_right = 104.0
 offset_bottom = -32.0
 text = "This is the world"
 
-[node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(40, -12)
-collision_layer = 2
-script = ExtResource("1_foxbg")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
-sprite_frames = SubResource("SpriteFrames_xyshj")
-autoplay = "default"
-frame = 3
-frame_progress = 1.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-z_index = 5
-position = Vector2(0, 7)
-shape = SubResource("CircleShape2D_23st0")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, 7)
-zoom = Vector2(4, 4)
-limit_top = -500
-limit_bottom = 100
-position_smoothing_enabled = true
-
 [node name="TileMap" type="TileMap" parent="."]
 show_behind_parent = true
 tile_set = SubResource("TileSet_ykv68")
@@ -586,4 +524,8 @@ autoplay = "new_animation"
 [node name="Slime" parent="." instance=ExtResource("7_gxosq")]
 position = Vector2(584, 20)
 
-[connection signal="take_damage" from="Player" to="Killzone" method="_on_player_take_damage"]
+[node name="Player" parent="." instance=ExtResource("6_7cepm")]
+
+[node name="Portal" parent="." instance=ExtResource("7_f5lvv")]
+position = Vector2(120, -57)
+collision_mask = 2
