@@ -1,9 +1,9 @@
 [gd_scene load_steps=14 format=3 uid="uid://b3c06y0ekvnu"]
 
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_yd6vl"]
 [ext_resource type="Texture2D" uid="uid://btywsg8bnvalq" path="res://assets/sprites/world_tileset.png" id="3_t6cfi"]
 [ext_resource type="PackedScene" uid="uid://cdounejwu13oy" path="res://scenes/platform.tscn" id="4_nt5cw"]
 [ext_resource type="PackedScene" uid="uid://dgr7lqy2nfnjw" path="res://scenes/coin.tscn" id="5_n5qn6"]
-[ext_resource type="PackedScene" uid="uid://ck88i3u5j1n3r" path="res://scenes/player.tscn" id="6_7cepm"]
 [ext_resource type="PackedScene" uid="uid://bdq70gapsbukp" path="res://scenes/killzone.tscn" id="6_o2qwa"]
 [ext_resource type="PackedScene" uid="uid://t3i8qmgmkjta" path="res://scenes/portal.tscn" id="7_f5lvv"]
 [ext_resource type="PackedScene" uid="uid://blq4gso2lj5yi" path="res://scenes/slime.tscn" id="7_gxosq"]
@@ -476,6 +476,7 @@ _data = {
 }
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_yd6vl")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -23.0
@@ -524,8 +525,8 @@ autoplay = "new_animation"
 [node name="Slime" parent="." instance=ExtResource("7_gxosq")]
 position = Vector2(584, 20)
 
-[node name="Player" parent="." instance=ExtResource("6_7cepm")]
-
 [node name="Portal" parent="." instance=ExtResource("7_f5lvv")]
 position = Vector2(120, -57)
 collision_mask = 2
+
+[node name="Enemies" type="Node2D" parent="."]

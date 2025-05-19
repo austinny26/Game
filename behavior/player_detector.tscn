@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdvx6pifrj8se"]
+
+[ext_resource type="Script" path="res://behavior/player_detector.gd" id="1_3lbi5"]
+
+[node name="player_detector" type="Area2D"]
+script = ExtResource("1_3lbi5")
