@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1wr7q5evnxmw"]
+
+[ext_resource type="PackedScene" uid="uid://bkc8i2tfohtub" path="res://top-down-shooter-core/interactable_objects/interactable_object.tscn" id="1_omj4p"]
+
+[sub_resource type="GDScript" id="GDScript_tmkwf"]
+script/source = "@tool
+extends QuiverInteractableObject
+class_name QuiverPickableItem
+
+# The pickable item is a specific interactable object that holds a QuiverItem.
+# It can be interacted (to pick it up, or use it instantly) as an interactable object.
+
+# The corresponding item
+@export var item: QuiverItem
+
+
+func _get_configuration_warnings():
+	var warnings = super._get_configuration_warnings()
+	if not item is QuiverItem:
+		warnings.append(\"item from PickableItem should be of type QuiverItem\")
+	return warnings
+"
+
+[node name="PickableItem" instance=ExtResource("1_omj4p")]
+script = SubResource("GDScript_tmkwf")
+item = null
