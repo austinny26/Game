@@ -1,6 +1,6 @@
 extends Node2D
 
-const PLAYER_CHARACTER = preload("res://player/player_character.tscn")
+const PLAYER_CHARACTER = preload("res://player/player.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,6 +8,7 @@ func _ready():
 		var player_node = PLAYER_CHARACTER.instantiate()
 		add_child(player_node)
 		enter_level()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

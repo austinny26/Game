@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=3 uid="uid://blq4gso2lj5yi"]
+
+[ext_resource type="Script" path="res://enemies/slime/slime.gd" id="1_20fwy"]
+[ext_resource type="Texture2D" uid="uid://cihr7c3t1wy7m" path="res://assets/sprites/slime_green.png" id="2_pf4ev"]
+[ext_resource type="PackedScene" uid="uid://c1efpcl7vdk7e" path="res://weapon/melee_weapon.tscn" id="3_opvfn"]
+[ext_resource type="PackedScene" uid="uid://ckwmp2ktc7rj8" path="res://behavior/player_detector.tscn" id="4_571eb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b81w2"]
+atlas = ExtResource("2_pf4ev")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ye5mr"]
+atlas = ExtResource("2_pf4ev")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vgway"]
+atlas = ExtResource("2_pf4ev")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31uju"]
+atlas = ExtResource("2_pf4ev")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6jxar"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b81w2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ye5mr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vgway")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31uju")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gchoh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xtmsb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_423bs"]
+
+[node name="Slime" type="Node2D"]
+script = ExtResource("1_20fwy")
+
+[node name="visual" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="visual"]
+sprite_frames = SubResource("SpriteFrames_6jxar")
+autoplay = "default"
+frame_progress = 0.0920461
+flip_h = true
+
+[node name="MeleeWeapon" parent="visual" instance=ExtResource("3_opvfn")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="visual/MeleeWeapon"]
+shape = SubResource("CircleShape2D_gchoh")
+
+[node name="behavior" type="Node2D" parent="."]
+
+[node name="player_detector" parent="behavior" instance=ExtResource("4_571eb")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="behavior/player_detector"]
+shape = SubResource("CircleShape2D_xtmsb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_423bs")

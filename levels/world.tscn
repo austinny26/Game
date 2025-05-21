@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cdounejwu13oy" path="res://objects/platform.tscn" id="4_nt5cw"]
 [ext_resource type="PackedScene" uid="uid://dgr7lqy2nfnjw" path="res://interactables/coin.tscn" id="5_n5qn6"]
 [ext_resource type="PackedScene" uid="uid://t3i8qmgmkjta" path="res://interactables/portal.tscn" id="7_f5lvv"]
-[ext_resource type="PackedScene" uid="uid://blq4gso2lj5yi" path="res://enemies/slime.tscn" id="7_gxosq"]
+[ext_resource type="PackedScene" uid="uid://blq4gso2lj5yi" path="res://enemies/slime/slime.tscn" id="7_gxosq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bl40"]
 texture = ExtResource("3_t6cfi")

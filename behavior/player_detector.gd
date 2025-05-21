@@ -1,24 +1,22 @@
 extends Area2D
 
-signal died
+var player: Player = null
 
-@export_range(1,100) var max_life := 5:
-	set(value):
-		max_life = value
-		if current_life > max_life:
-			current_life = max_life
+func player_is_in_range()->bool:
+	return player != null
 
-# the current character life
-var current_life := 5:
-	set(value):
-		current_life = max_life if value >= max_life else value
-		if current_life <= 0:
-			current_life = 0
-			died.emit()
+func get_player_position()->Vector2:
+	if player_is_in_range():
+		return player.global_position
+	else:
+		printerr("Error: PlayerDetector.get_player_position() -> player is not in range, returning Vector2.ZERO")
+		return Vector2.ZERO
 
-# set current life to be equal to max life
-func set_life_to_max():
-	current_life = max_life
+func _on_player_detector_body_entered(body):
+	if body is Player:
+		player = body
 
-func damage(amount:int):
-	current_life -= amount
+
+func _on_player_detector_body_exited(body):
+	if body == player:
+		player = null
