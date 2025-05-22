@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bkc8i2tfohtub"]
+
+[node name="InteractableObject" type="Node2D"]
+
+[node name="Action" type="Node2D" parent="."]
+
+[node name="InteractMechanic" type="Node2D" parent="."]
