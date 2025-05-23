@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Game/enemies/slime/slime.gd" id="1_20fwy"]
 [ext_resource type="Texture2D" uid="uid://cihr7c3t1wy7m" path="res://Game/assets/sprites/slime_green.png" id="2_pf4ev"]
-[ext_resource type="PackedScene" uid="uid://c1efpcl7vdk7e" path="res://structure/weapon/melee_weapon.tscn" id="3_opvfn"]
-[ext_resource type="PackedScene" uid="uid://ckwmp2ktc7rj8" path="res://structure/behavior/player_detector.tscn" id="4_571eb"]
+[ext_resource type="PackedScene" path="res://structure/weapons/melee_weapon.tscn" id="3_opvfn"]
+[ext_resource type="PackedScene" uid="uid://bijrmnjpqchre" path="res://structure/character/behavior/behavior_modules/player_detector.tscn" id="4_571eb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b81w2"]
 atlas = ExtResource("2_pf4ev")
@@ -59,7 +59,6 @@ frame_progress = 0.0920461
 flip_h = true
 
 [node name="MeleeWeapon" parent="visual" instance=ExtResource("3_opvfn")]
-damage = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="visual/MeleeWeapon"]
 shape = SubResource("CircleShape2D_gchoh")

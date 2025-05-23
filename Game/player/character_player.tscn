@@ -1,0 +1,112 @@
+[gd_scene load_steps=21 format=3 uid="uid://c2iiqkw4sodlt"]
+
+[ext_resource type="Script" path="res://Game/player/character_player.gd" id="1_qmcdt"]
+[ext_resource type="Script" path="res://Game/player/character_visual.gd" id="2_d86ud"]
+[ext_resource type="Script" path="res://structure/character/character_stats/character_stats.gd" id="2_kkra4"]
+[ext_resource type="Texture2D" uid="uid://14ctlv441fdv" path="res://Game/assets/sprites/knight.png" id="3_arqdc"]
+[ext_resource type="Script" path="res://structure/inventory/inventory.gd" id="3_rk5s3"]
+[ext_resource type="Script" path="res://Game/player/player_input.gd" id="4_g3s4d"]
+[ext_resource type="Script" path="res://structure/character/character_stats/physics_stats.gd" id="4_rs6nv"]
+
+[sub_resource type="Resource" id="Resource_mjxp3"]
+script = ExtResource("2_kkra4")
+max_life = 5
+
+[sub_resource type="Resource" id="Resource_gq3y0"]
+script = ExtResource("3_rk5s3")
+max_size = 10
+
+[sub_resource type="Resource" id="Resource_d7rd4"]
+script = ExtResource("4_rs6nv")
+max_speed = 500.0
+acceleration = 0.4
+friction = 0.1
+impulse_force = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h1cnd"]
+size = Vector2(16, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3lb8"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_korda"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvvd0"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8sbls"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h0x3"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(128, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5xs7"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(160, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xilvb"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(192, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o04d8"]
+atlas = ExtResource("3_arqdc")
+region = Rect2(224, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aap7g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3lb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_korda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvvd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8sbls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1h0x3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o5xs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xilvb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o04d8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Character" type="CharacterBody2D"]
+script = ExtResource("1_qmcdt")
+character_stats = SubResource("Resource_mjxp3")
+inventory = SubResource("Resource_gq3y0")
+physics_stats = SubResource("Resource_d7rd4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 2.5)
+shape = SubResource("RectangleShape2D_h1cnd")
+
+[node name="Visual" type="Node2D" parent="."]
+script = ExtResource("2_d86ud")
+
+[node name="Player" type="AnimatedSprite2D" parent="Visual"]
+sprite_frames = SubResource("SpriteFrames_aap7g")
+frame = 3
+frame_progress = 0.325289
+
+[node name="Behavior" type="Node2D" parent="."]
+script = ExtResource("4_g3s4d")

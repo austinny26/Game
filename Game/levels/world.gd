@@ -1,6 +1,6 @@
 extends Node2D
 
-const PLAYER_CHARACTER = preload("res://player/player.tscn")
+const PLAYER_CHARACTER = preload("res://Game/player/character_player.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
