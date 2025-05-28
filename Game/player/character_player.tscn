@@ -110,3 +110,5 @@ frame_progress = 0.325289
 
 [node name="Behavior" type="Node2D" parent="."]
 script = ExtResource("4_g3s4d")
+
+[node name="Camera2D" type="Camera2D" parent="."]
