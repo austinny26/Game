@@ -1,6 +1,6 @@
 extends Node2D
 
 func _ready():
-	get_tree().change_scene_to_file("res://Game/levels/world1.tscn")
+	get_tree().change_scene_to_file("world1.tscn")
 
 

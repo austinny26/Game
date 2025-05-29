@@ -1,24 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://b3c06y0ekvnu"]
+[gd_scene load_steps=11 format=3 uid="uid://b3c06y0ekvnu"]
 
 [ext_resource type="Script" path="res://Game/levels/world.gd" id="1_eoq3d"]
 [ext_resource type="Texture2D" uid="uid://btywsg8bnvalq" path="res://Game/assets/sprites/world_tileset.png" id="2_c25d7"]
-[ext_resource type="PackedScene" uid="uid://c2iiqkw4sodlt" path="res://Game/player/character_player.tscn" id="2_elp71"]
 [ext_resource type="PackedScene" uid="uid://dgr7lqy2nfnjw" path="res://Game/interactables/coin.tscn" id="3_4wnfp"]
-[ext_resource type="Script" path="res://structure/inventory/inventory.gd" id="4_cukf1"]
 [ext_resource type="PackedScene" uid="uid://cdounejwu13oy" path="res://Game/objects/platform.tscn" id="4_jv02b"]
-[ext_resource type="Script" path="res://structure/character/character_stats/physics_stats.gd" id="5_75kmd"]
 [ext_resource type="PackedScene" uid="uid://t3i8qmgmkjta" path="res://Game/interactables/portal.tscn" id="6_g0ves"]
-
-[sub_resource type="Resource" id="Resource_p8eb8"]
-script = ExtResource("4_cukf1")
-max_size = 10
-
-[sub_resource type="Resource" id="Resource_4bdqf"]
-script = ExtResource("5_75kmd")
-max_speed = 500.0
-acceleration = 0.4
-friction = 0.1
-impulse_force = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bl40"]
 texture = ExtResource("2_c25d7")
@@ -487,10 +473,6 @@ _data = {
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_eoq3d")
-
-[node name="Character" parent="." instance=ExtResource("2_elp71")]
-inventory = SubResource("Resource_p8eb8")
-physics_stats = SubResource("Resource_4bdqf")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -23.0
