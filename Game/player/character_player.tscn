@@ -130,3 +130,5 @@ script = ExtResource("4_g3s4d")
 zoom = Vector2(3, 3)
 limit_left = -10000004
 position_smoothing_enabled = true
+
+[node name="Timer" type="Timer" parent="."]
