@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bijrmnjpqchre"]
-
-[ext_resource type="Script" path="res://structure/character/behavior/behavior_modules/player_detector.gd" id="1_dl7ut"]
-
-[node name="PlayerDetector" type="Area2D"]
-collision_mask = 3
-script = ExtResource("1_dl7ut")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
