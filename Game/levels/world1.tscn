@@ -1,10 +1,31 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3c06y0ekvnu"]
+[gd_scene load_steps=18 format=3 uid="uid://b3c06y0ekvnu"]
 
-[ext_resource type="Script" path="res://Game/levels/world.gd" id="1_eoq3d"]
+[ext_resource type="Script" path="res://Game/levels/world1.gd" id="1_gwk2h"]
 [ext_resource type="Texture2D" uid="uid://btywsg8bnvalq" path="res://Game/assets/sprites/world_tileset.png" id="2_c25d7"]
+[ext_resource type="PackedScene" uid="uid://u3q2kechnkvu" path="res://Game/player/character_player.tscn" id="2_mja1c"]
 [ext_resource type="PackedScene" uid="uid://dgr7lqy2nfnjw" path="res://Game/interactables/coin.tscn" id="3_4wnfp"]
+[ext_resource type="Script" path="res://template/character/character_stats/character_stats.gd" id="3_vbl0d"]
 [ext_resource type="PackedScene" uid="uid://cdounejwu13oy" path="res://Game/objects/platform.tscn" id="4_jv02b"]
+[ext_resource type="Script" path="res://template/inventory/inventory_.gd" id="4_s1mtv"]
+[ext_resource type="Script" path="res://template/character/character_stats/physics_stats.gd" id="5_o711q"]
 [ext_resource type="PackedScene" uid="uid://t3i8qmgmkjta" path="res://Game/interactables/portal.tscn" id="6_g0ves"]
+
+[sub_resource type="Resource" id="Resource_pgqbb"]
+script = ExtResource("3_vbl0d")
+max_life = 5
+
+[sub_resource type="Resource" id="Resource_4l8k0"]
+script = ExtResource("4_s1mtv")
+max_size = 10
+
+[sub_resource type="Resource" id="Resource_nt28m"]
+script = ExtResource("5_o711q")
+max_speed = 150.0
+jump_power = 400
+gravity = 1500
+acceleration = 0.4
+friction = 0.1
+impulse_force = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bl40"]
 texture = ExtResource("2_c25d7")
@@ -472,7 +493,12 @@ _data = {
 }
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_eoq3d")
+script = ExtResource("1_gwk2h")
+
+[node name="Character" parent="." instance=ExtResource("2_mja1c")]
+character_stats = SubResource("Resource_pgqbb")
+inventory = SubResource("Resource_4l8k0")
+physics_stats = SubResource("Resource_nt28m")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -23.0

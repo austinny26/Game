@@ -1,101 +1,116 @@
-[gd_scene load_steps=23 format=3 uid="uid://c2iiqkw4sodlt"]
+[gd_scene load_steps=22 format=3 uid="uid://u3q2kechnkvu"]
 
-[ext_resource type="Script" path="res://Game/player/character_player.gd" id="1_qmcdt"]
+[ext_resource type="Script" path="res://template/character/character_stats/character_stats.gd" id="1_1mi0s"]
 [ext_resource type="Script" path="res://Game/player/character_visual.gd" id="2_d86ud"]
-[ext_resource type="Script" path="res://structure/character/character_stats/character_stats.gd" id="2_kkra4"]
+[ext_resource type="Script" path="res://template/inventory/inventory_.gd" id="2_or4fm"]
 [ext_resource type="Texture2D" uid="uid://14ctlv441fdv" path="res://Game/assets/sprites/knight.png" id="3_arqdc"]
-[ext_resource type="Script" path="res://structure/inventory/inventory.gd" id="3_rk5s3"]
+[ext_resource type="Script" path="res://template/character/character_stats/physics_stats.gd" id="3_ff2vx"]
 [ext_resource type="Script" path="res://Game/player/player_input.gd" id="4_g3s4d"]
-[ext_resource type="Script" path="res://structure/character/character_stats/physics_stats.gd" id="4_rs6nv"]
-[ext_resource type="PackedScene" uid="uid://cop8ouksmiyov" path="res://structure/weapons/distance_weapon.tscn" id="7_t5i8p"]
 
-[sub_resource type="Resource" id="Resource_mjxp3"]
-script = ExtResource("2_kkra4")
+[sub_resource type="GDScript" id="GDScript_h3f0h"]
+script/source = "extends Character
+
+@export var gui_path: NodePath
+
+func hit(damage:=1, from:=Vector2.ZERO):
+	super.hit(damage, from)
+	print(\"ow\")
+
+
+func _process(delta):
+	pass
+	
+
+func change_arrow(arrow_scene):
+	pass
+
+"
+
+[sub_resource type="Resource" id="Resource_owjig"]
+script = ExtResource("1_1mi0s")
 max_life = 5
 
-[sub_resource type="Resource" id="Resource_gq3y0"]
-script = ExtResource("3_rk5s3")
+[sub_resource type="Resource" id="Resource_r3dt3"]
+script = ExtResource("2_or4fm")
 max_size = 10
 
-[sub_resource type="Resource" id="Resource_d7rd4"]
-script = ExtResource("4_rs6nv")
+[sub_resource type="Resource" id="Resource_mmvj2"]
+script = ExtResource("3_ff2vx")
 max_speed = 150.0
-max_flight_speed = 200.0
+jump_power = 400
+gravity = 1500
 acceleration = 0.4
 friction = 0.1
-gravity = 1500
-jump_power = 400.0
-flight_power = 40
 impulse_force = 0.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h1cnd"]
-size = Vector2(13, 19)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bamem"]
+size = Vector2(14, 19)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8uyi7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2wgj"]
 atlas = ExtResource("3_arqdc")
-region = Rect2(96, 0, 32, 32)
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f3lb8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4y2t"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(0, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_korda"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fui0e"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(32, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gvvd0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ra8jq"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(64, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8sbls"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_766d0"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(96, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1h0x3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrml0"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(128, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o5xs7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_see6x"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(160, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xilvb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wbkw"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(192, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o04d8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcagc"]
 atlas = ExtResource("3_arqdc")
 region = Rect2(224, 64, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_aap7g"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xyshj"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8uyi7")
+"texture": SubResource("AtlasTexture_o2wgj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f3lb8")
+"texture": SubResource("AtlasTexture_k4y2t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_korda")
+"texture": SubResource("AtlasTexture_fui0e")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gvvd0")
+"texture": SubResource("AtlasTexture_ra8jq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8sbls")
+"texture": SubResource("AtlasTexture_766d0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1h0x3")
+"texture": SubResource("AtlasTexture_nrml0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o5xs7")
+"texture": SubResource("AtlasTexture_see6x")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xilvb")
+"texture": SubResource("AtlasTexture_3wbkw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o04d8")
+"texture": SubResource("AtlasTexture_jcagc")
 }],
 "loop": true,
 "name": &"default",
@@ -103,32 +118,36 @@ animations = [{
 }]
 
 [node name="Character" type="CharacterBody2D"]
-script = ExtResource("1_qmcdt")
-character_stats = SubResource("Resource_mjxp3")
-inventory = SubResource("Resource_gq3y0")
-physics_stats = SubResource("Resource_d7rd4")
+position = Vector2(40, -12)
+collision_layer = 2
+script = SubResource("GDScript_h3f0h")
+character_stats = SubResource("Resource_owjig")
+inventory = SubResource("Resource_r3dt3")
+physics_stats = SubResource("Resource_mmvj2")
 can_fly = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 2.5)
-shape = SubResource("RectangleShape2D_h1cnd")
+z_index = 5
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_bamem")
 
 [node name="Visual" type="Node2D" parent="."]
 script = ExtResource("2_d86ud")
 
-[node name="Player" type="AnimatedSprite2D" parent="Visual"]
-sprite_frames = SubResource("SpriteFrames_aap7g")
-frame = 3
-frame_progress = 0.325289
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+sprite_frames = SubResource("SpriteFrames_xyshj")
+autoplay = "default"
+frame_progress = 1.0
 
-[node name="DistanceWeapon" parent="Visual" instance=ExtResource("7_t5i8p")]
+[node name="DistanceWeapon" type="Node2D" parent="Visual"]
 
 [node name="Behavior" type="Node2D" parent="."]
 script = ExtResource("4_g3s4d")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 7)
 zoom = Vector2(3, 3)
-limit_left = -10000004
+limit_top = -500
+limit_bottom = 100
+limit_smoothed = true
 position_smoothing_enabled = true
-
-[node name="Timer" type="Timer" parent="."]

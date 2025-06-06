@@ -14,6 +14,7 @@ enum RotationType {NONE, MOVING}
 
 # Can grab items
 @export var can_grab_items := true
+@export var can_fly := false
 
 
 
@@ -51,8 +52,22 @@ func _physics_process(delta):
 	velocity.y += physics_stats.gravity * delta
 	# Character Movement
 	
+	if action.moving_direction.length() > 0: # Accelerate
+		velocity = velocity.lerp(action.moving_direction*physics_stats.max_speed, physics_stats.acceleration)
+	else: # Apply Friction
+		velocity = velocity.lerp(Vector2.ZERO, physics_stats.friction)
+	
 	vertical_movement()
-	horizontal_movement()
+	
+	#if !can_fly:
+	#	vertical_movement()
+	#	horizontal_movement()
+	#elif can_fly && is_on_floor():
+	#	vertical_movement()
+	#	horizontal_movement()
+	#elif can_fly && !is_on_floor() :
+	#	vertical_flight()
+	#	horizontal_flight()
 	
 	move_and_slide()
 	
@@ -81,8 +96,23 @@ func horizontal_movement():
 	velocity.x = horizontal_input * physics_stats.max_speed
 
 func vertical_movement():
-	var vertical_input = Input.get_action_strength("ui_up") - Input.get_action_strength("ui_down")
-	velocity.y = vertical_input * physics_stats.jump_power
+	if is_on_floor():
+		var vertical_input = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+		velocity.y += vertical_input * physics_stats.jump_power
+
+func vertical_flight():
+	var vertical_input = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	if is_on_floor():
+		velocity.y += vertical_input * physics_stats.jump_power * .5
+	else:
+		velocity.y += vertical_input * 100
+
+func horizontal_flight():
+	var horizontal_input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	velocity.x = horizontal_input * physics_stats.max_speed * 1.5
+
+#func dash():
+#	if 
 
 
 

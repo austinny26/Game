@@ -7,7 +7,7 @@ enum RotationMode {NONE, MOVING}
 # You will need to have a walking animation for each angle
 @export var rotation_clamping := 4
 
-@onready var body: AnimatedSprite2D = $Player
+@onready var body: AnimatedSprite2D = $AnimatedSprite2D
 
 @onready var weapon = $DistanceWeapon
 
