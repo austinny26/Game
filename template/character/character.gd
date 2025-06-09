@@ -52,12 +52,9 @@ func _physics_process(delta):
 	velocity.y += physics_stats.gravity * delta
 	# Character Movement
 	
-	if action.moving_direction.length() > 0: # Accelerate
-		velocity = velocity.lerp(action.moving_direction*physics_stats.max_speed, physics_stats.acceleration)
-	else: # Apply Friction
-		velocity = velocity.lerp(Vector2.ZERO, physics_stats.friction)
-	
-	vertical_movement()
+	horizontal_movement(action)
+	vertical_movement(action)
+	fly()
 	
 	#if !can_fly:
 	#	vertical_movement()
@@ -91,25 +88,26 @@ func _physics_process(delta):
 		if _impulse.length() < 1.0:
 			_impulse = Vector2.ZERO
 
-func horizontal_movement():
-	var horizontal_input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	velocity.x = horizontal_input * physics_stats.max_speed
+func horizontal_movement(action):
+	var horizontal_strength = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	if (Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right")):
+		if is_on_floor():
+			velocity = velocity.lerp(action.moving_direction*physics_stats.max_speed, physics_stats.acceleration)
+		else:
+			velocity.x = horizontal_strength * physics_stats.max_speed
+	else: # Apply Friction
+		velocity = velocity.lerp(Vector2.ZERO, physics_stats.friction)
 
-func vertical_movement():
+func vertical_movement(action):
 	if is_on_floor():
 		var vertical_input = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 		velocity.y += vertical_input * physics_stats.jump_power
 
-func vertical_flight():
+func fly():
 	var vertical_input = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	if is_on_floor():
-		velocity.y += vertical_input * physics_stats.jump_power * .5
-	else:
-		velocity.y += vertical_input * 100
+	if can_fly && Input.is_action_pressed("ui_up"):
+		velocity.y += vertical_input * 50
 
-func horizontal_flight():
-	var horizontal_input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	velocity.x = horizontal_input * physics_stats.max_speed * 1.5
 
 #func dash():
 #	if 
