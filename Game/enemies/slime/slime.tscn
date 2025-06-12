@@ -1,74 +1,204 @@
-[gd_scene load_steps=13 format=3 uid="uid://blq4gso2lj5yi"]
+[gd_scene load_steps=15 format=3 uid="uid://b5siqfvyhdgsj"]
 
-[ext_resource type="Script" path="res://Game/enemies/slime/slime.gd" id="1_20fwy"]
+[ext_resource type="Script" path="res://template/character/character_stats/character_stats.gd" id="2_aj8fm"]
 [ext_resource type="Texture2D" uid="uid://cihr7c3t1wy7m" path="res://Game/assets/sprites/slime_green.png" id="2_pf4ev"]
-[ext_resource type="PackedScene" path="res://structure/weapons/melee_weapon.tscn" id="3_opvfn"]
-[ext_resource type="PackedScene" uid="uid://bijrmnjpqchre" path="res://structure/character/behavior/behavior_modules/player_detector.tscn" id="4_571eb"]
+[ext_resource type="Script" path="res://template/character/character_stats/physics_stats.gd" id="3_ww5r3"]
+[ext_resource type="Script" path="res://template/character/visual/visual.gd" id="4_bf0nb"]
+[ext_resource type="Script" path="res://template/character/behavior/behavior.gd" id="6_goo6a"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b81w2"]
+[sub_resource type="GDScript" id="GDScript_0sm0o"]
+script/source = "extends CharacterBody2D
+class_name Character
+# Default Character
+
+enum RotationType {NONE, MOVING}
+
+@export var character_stats: CharacterStats
+@export var inventory: Inventory
+
+@export var physics_stats: PhysicsStats
+
+# Wil rotate the entire CharacterBody2D towards the aiming/moving direction
+@export var rotate_body_towards : RotationType = RotationType.NONE
+
+# Can grab items
+@export var can_grab_items := true
+@export var can_fly := false
+
+
+
+@onready var visual : CharacterVisual = $Visual
+@onready var behavior : CharacterBehavior = $Behavior
+
+
+var _impulse := Vector2.ZERO
+
+# Emitted when the behavior asks to shoot
+# Connect this signal to the current weapon shoot function
+signal shoot
+
+func _ready():
+
+	
+	if !(visual is CharacterVisual):
+		printerr(\"Error: Visual node is not a CharacterVisual (add the corresponding script)\")
+	if !(behavior is CharacterBehavior):
+		printerr(\"Error: Behavior node is not a CharacterBehavior (add the corresponding script)\")
+	
+	behavior.physics_stats = physics_stats
+
+func _physics_process(delta):
+	var action : CharacterActions = behavior.get_action()
+	
+	
+	# Character rotation
+	match rotate_body_towards:
+		RotationType.MOVING:
+			if action.moving_direction != Vector2.ZERO:
+				rotation = action.moving_direction.angle()
+	
+	# gravity
+	velocity.y += physics_stats.gravity * delta
+	# Character Movement
+	
+	horizontal_movement(action)
+	vertical_movement(action)
+	fly()
+	
+	#if !can_fly:
+	#	vertical_movement()
+	#	horizontal_movement()
+	#elif can_fly && is_on_floor():
+	#	vertical_movement()
+	#	horizontal_movement()
+	#elif can_fly && !is_on_floor() :
+	#	vertical_flight()
+	#	horizontal_flight()
+	
+	move_and_slide()
+	
+	# Character visual update
+	visual.update_visual_and_state(action)
+	
+	# Detect and handle collisions
+	for i in get_slide_collision_count():
+		behavior.handle_collision(get_slide_collision(i))
+		
+	
+	# Shooting
+	if action.shoot:
+		action.shoot = false
+		emit_signal(\"shoot\")
+	
+	# Apply Impulse
+	if _impulse.length() > 0:
+		velocity = _impulse
+		_impulse /= 1.2
+		if _impulse.length() < 1.0:
+			_impulse = Vector2.ZERO
+
+func horizontal_movement(action):
+	var horizontal_strength = Input.get_action_strength(\"ui_right\") - Input.get_action_strength(\"ui_left\")
+	if (Input.is_action_pressed(\"ui_left\") || Input.is_action_pressed(\"ui_right\")):
+		if is_on_floor():
+			velocity = velocity.lerp(action.moving_direction*physics_stats.max_speed, physics_stats.acceleration)
+		else:
+			velocity.x = horizontal_strength * physics_stats.max_speed
+	else: # Apply Friction
+		velocity = velocity.lerp(Vector2.ZERO, physics_stats.friction)
+
+func vertical_movement(action):
+	if is_on_floor():
+		var vertical_input = Input.get_action_strength(\"ui_down\") - Input.get_action_strength(\"ui_up\")
+		velocity.y += vertical_input * physics_stats.jump_power
+
+func fly():
+	var vertical_input = Input.get_action_strength(\"ui_down\") - Input.get_action_strength(\"ui_up\")
+	if can_fly && Input.is_action_pressed(\"ui_up\"):
+		velocity.y += vertical_input * 50
+
+
+#func dash():
+#	if 
+
+
+
+func hit(damage:=1, from:=Vector2.ZERO):
+	character_stats.damage(damage)
+	if character_stats.current_life == 0:
+		die()
+	_impulse = from*physics_stats.impulse_force
+
+func die():
+	queue_free()
+
+"
+
+[sub_resource type="Resource" id="Resource_fcnu3"]
+script = ExtResource("2_aj8fm")
+max_life = 5
+
+[sub_resource type="Resource" id="Resource_bu62w"]
+script = ExtResource("3_ww5r3")
+max_speed = 150.0
+jump_power = 400
+gravity = 1500
+acceleration = 0.4
+friction = 0.1
+impulse_force = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfa14"]
 atlas = ExtResource("2_pf4ev")
 region = Rect2(0, 24, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ye5mr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3o1y"]
 atlas = ExtResource("2_pf4ev")
 region = Rect2(24, 24, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vgway"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwvfq"]
 atlas = ExtResource("2_pf4ev")
 region = Rect2(48, 24, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_31uju"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fk5is"]
 atlas = ExtResource("2_pf4ev")
 region = Rect2(72, 24, 24, 24)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_6jxar"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_8kvn5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b81w2")
+"texture": SubResource("AtlasTexture_bfa14")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ye5mr")
+"texture": SubResource("AtlasTexture_a3o1y")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vgway")
+"texture": SubResource("AtlasTexture_vwvfq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_31uju")
+"texture": SubResource("AtlasTexture_fk5is")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gchoh"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yy1ge"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xtmsb"]
+[node name="Character" type="CharacterBody2D"]
+script = SubResource("GDScript_0sm0o")
+character_stats = SubResource("Resource_fcnu3")
+physics_stats = SubResource("Resource_bu62w")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_423bs"]
+[node name="CharacterVisual" type="Node2D" parent="."]
+script = ExtResource("4_bf0nb")
 
-[node name="Slime" type="Node2D"]
-script = ExtResource("1_20fwy")
-
-[node name="visual" type="Node2D" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="visual"]
-sprite_frames = SubResource("SpriteFrames_6jxar")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterVisual"]
+sprite_frames = SubResource("SpriteFrames_8kvn5")
 autoplay = "default"
-frame_progress = 0.0920461
-flip_h = true
 
-[node name="MeleeWeapon" parent="visual" instance=ExtResource("3_opvfn")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="visual/MeleeWeapon"]
-shape = SubResource("CircleShape2D_gchoh")
-
-[node name="behavior" type="Node2D" parent="."]
-
-[node name="player_detector" parent="behavior" instance=ExtResource("4_571eb")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="behavior/player_detector"]
-shape = SubResource("CircleShape2D_xtmsb")
+[node name="CharacterBehavior" type="Node2D" parent="."]
+script = ExtResource("6_goo6a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_423bs")
+shape = SubResource("RectangleShape2D_yy1ge")
